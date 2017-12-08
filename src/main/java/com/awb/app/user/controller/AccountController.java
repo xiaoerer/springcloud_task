@@ -31,7 +31,7 @@ public class AccountController {
     }*/
 
 
-    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+/*    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
     public String loginUser(@RequestParam(value = "username") String username,@RequestParam(value = "password") String password, HttpSession session) {
 //        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
 //        Subject subject = SecurityUtils.getSubject();
@@ -58,7 +58,22 @@ public class AccountController {
             subject.login(usernamePasswordToken);   //完成登录
             User user=(User) subject.getPrincipal();
             session.setAttribute("user", user);
-            return "home";
+            return "redirect:/home";
+        } catch(Exception e) {
+            return "login";//返回登录页面
+        }
+
+    }*/
+
+    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+    public String loginUser(@RequestParam(value = "username") String username,@RequestParam(value = "password") String password) {
+        UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username,password);
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(usernamePasswordToken);   //完成登录
+            User user=(User) subject.getPrincipal();
+            subject.getSession().setAttribute("user", user);
+            return "redirect:/home";
         } catch(Exception e) {
             return "login";//返回登录页面
         }
@@ -68,8 +83,13 @@ public class AccountController {
     public String logOut(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-//        session.removeAttribute("user");
+        session.removeAttribute("user");
         return "login";
+    }
+
+    @RequestMapping("/home")
+    public String home() {
+        return "/include/base";
     }
 
 
