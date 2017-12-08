@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: local
+
+  #thymeleaf:
+   # cache: false
+
+#mybatis:
+#  mapperLocations: classpath:mapper/*.xml
+#  typeAliasesPackage: com.awb.app. *.entity
